@@ -448,15 +448,6 @@ export const deleteUser = async (
 
       // Step 6: Delete listing-related data
       if (listingIds.length > 0) {
-        // Delete VehicleDetails and RealEstateDetails first (they have foreign key constraints)
-        await prisma.vehicleDetails.deleteMany({
-          where: { listingId: { in: listingIds } },
-        });
-
-        await prisma.realEstateDetails.deleteMany({
-          where: { listingId: { in: listingIds } },
-        });
-
         // Delete other listing-related data
         await prisma.image.deleteMany({
           where: { listingId: { in: listingIds } },

@@ -18,7 +18,6 @@ import { UserPayload } from "../types/auth.js";
 // Extend Fastify request with custom properties
 declare module "fastify" {
   interface FastifyRequest {
-    user: UserPayload;
     processedImages?: Array<{
       url: string;
       order: number;
