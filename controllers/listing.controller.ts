@@ -120,20 +120,10 @@ type ListingCreateBody = {
   latitude: number;
   longitude: number;
   condition?: string;
+  details?: any;
   listingAction?: ListingAction;
   attributes?: Array<{ name: string; value: string }>;
   features?: Array<{ name: string; value: boolean }>;
-  // Vehicle fields
-  make?: string;
-  model?: string;
-  year?: number;
-  fuelType?: string;
-  transmissionType?: string;
-  color?: string;
-  bodyType?: string;
-  // Real estate fields
-  bedrooms?: number;
-  bathrooms?: number;
 };
 
 const formatListingResponse = (
@@ -244,23 +234,15 @@ export const createListing = async (req: FastifyRequest, res: FastifyReply) => {
       latitude,
       longitude,
       condition,
+      details,
       listingAction,
       attributes,
       features,
-      // Vehicle fields
-      make,
-      model,
-      year,
-      fuelType,
-      transmissionType,
-      color,
-      bodyType,
-      // Real estate fields
-      bedrooms,
-      bathrooms,
     } = req.body as ListingCreateBody;
 
-    // No longer using details JSON - using separate fields
+    // Parse details if it's a string
+    const parsedDetails =
+      typeof details === "string" ? JSON.parse(details) : details;
 
     const errors = validateListingData(req.body);
     if (errors.length > 0) {
@@ -303,17 +285,6 @@ export const createListing = async (req: FastifyRequest, res: FastifyReply) => {
         condition,
         status: ListingStatus.ACTIVE,
         listingAction: listingAction || ListingAction.SALE,
-        // Vehicle fields as separate columns
-        make,
-        model,
-        year: year ? (typeof year === "string" ? parseInt(year) : year) : undefined,
-        fuelType,
-        transmissionType,
-        color,
-        bodyType,
-        // Real estate fields as separate columns
-        bedrooms: bedrooms ? (typeof bedrooms === "string" ? parseInt(bedrooms) : bedrooms) : undefined,
-        bathrooms: bathrooms ? (typeof bathrooms === "string" ? parseInt(bathrooms) : bathrooms) : undefined,
         user: {
           connect: {
             id: userId,

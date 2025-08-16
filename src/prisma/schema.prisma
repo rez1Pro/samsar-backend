@@ -117,19 +117,6 @@ model Listing {
   longitude         Float
   views             Int                @default(0)
   viewUsersId       String[]
-  
-  // Basic vehicle fields only
-  make              String?
-  model             String?
-  year              Int?
-  fuelType          String?
-  transmissionType  String?
-  color             String?
-  bodyType          String?
-  
-  // Basic real estate fields only  
-  bedrooms          Int?
-  bathrooms         Int?
   attributes        Attribute[]
   conversations     Conversation[]     @relation("ListingConversations")
   favorites         Favorite[]
