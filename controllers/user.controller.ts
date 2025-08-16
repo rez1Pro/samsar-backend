@@ -543,7 +543,7 @@ export const deleteUser = async (
 };
 
 /**
- * Get user settings
+ **  Get user settings
  */
 export const getUserSettings = async (
   request: FastifyRequest,
